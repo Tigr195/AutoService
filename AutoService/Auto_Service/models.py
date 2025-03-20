@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password, check_password
 
 
 class Client(models.Model):
@@ -11,6 +12,12 @@ class Client(models.Model):
     def __str__(self):
         return self.name
 
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+
 class Master(models.Model):
     master_id = models.CharField(max_length=100, primary_key=True)
     full_name = models.CharField(max_length=100)
@@ -19,10 +26,15 @@ class Master(models.Model):
     age = models.CharField(max_length=3)
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    video = models.CharField(max_length=100)
 
     def __str__(self):
         return self.full_name
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
 class Service(models.Model):
     service_id = models.CharField(max_length=100, primary_key=True)
