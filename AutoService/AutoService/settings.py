@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'AutoService.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'TSP',
+        'NAME': 'autoservice',
         'USER': 'postgres',
         'PASSWORD': 'asdf4321',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '5500',
     }
 }
 
