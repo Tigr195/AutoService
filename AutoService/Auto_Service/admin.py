@@ -15,11 +15,11 @@ class ClientAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 class MasterAdmin(admin.ModelAdmin):
-    list_display = ('master_id', 'full_name', 'phone', 'qualification', 'age', 'login', 'password')
-    search_fields = ('full_name', 'phone', 'qualification')
-    list_filter = ('qualification',)
+    list_display = ('master_id', 'full_name', 'phone', 'experience', 'login', 'password')
+    search_fields = ('full_name', 'phone', 'experience')
+    list_filter = ('experience',)
     fieldsets = (
-        ('Основная информация', {'fields': ['master_id', 'full_name', 'phone', 'qualification', 'age', 'login', 'password']}),
+        ('Основная информация', {'fields': ['master_id', 'full_name', 'phone', 'experience', 'login', 'password']}),
     )
 
     def save_model(self, request, obj, form, change):

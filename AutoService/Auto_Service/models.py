@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 class Client(models.Model):
-    client_id = models.CharField(max_length=100, primary_key=True)
+    client_id = models.DecimalField(max_digits=100, decimal_places=0, primary_key=True)
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     login = models.CharField(max_length=50)
@@ -19,13 +19,12 @@ class Client(models.Model):
         return check_password(raw_password, self.password)
 
 class Master(models.Model):
-    master_id = models.CharField(max_length=100, primary_key=True)
+    master_id = models.DecimalField(max_digits=100, decimal_places=0, primary_key=True)
     full_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
-    qualification = models.CharField(max_length=100)
-    age = models.CharField(max_length=3)
-    login = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
+    experience = models.DecimalField(max_digits=100, decimal_places=0)
+    login = models.CharField(max_length=100)
+    password = models.CharField(max_length=128)
 
     def __str__(self):
         return self.full_name
@@ -37,16 +36,16 @@ class Master(models.Model):
         return check_password(raw_password, self.password)
 
 class Service(models.Model):
-    service_id = models.CharField(max_length=100, primary_key=True)
+    service_id = models.DecimalField(max_digits=100, decimal_places=0, primary_key=True)
     info = models.CharField(max_length=200)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=0)
     masters = models.CharField(max_length=200)
 
     def __str__(self):
         return self.info
 
 class Appointment(models.Model):
-    appointment_id = models.CharField(max_length=100, primary_key=True)
+    appointment_id = models.DecimalField(max_digits=100, decimal_places=0, primary_key=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='appointments')
     date = models.CharField(max_length=10)
     time = models.CharField(max_length=5)
