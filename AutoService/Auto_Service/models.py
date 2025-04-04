@@ -4,8 +4,8 @@ from django.contrib.auth.hashers import make_password, check_password
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    login = models.CharField(max_length=50)
+    phone = models.CharField(max_length=15, unique=True)
+    login = models.CharField(max_length=50, unique=True)
     password = models.CharField(max_length=128)
 
     def __str__(self):
@@ -19,9 +19,9 @@ class Client(models.Model):
 
 class Master(models.Model):
     full_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, unique=True)
     experience = models.DecimalField(max_digits=100, decimal_places=0)
-    login = models.CharField(max_length=100)
+    login = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=128)
 
     def __str__(self):

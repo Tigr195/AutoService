@@ -38,6 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Auto_Service',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+AUTHENTICATION_BACKENDS = [
+    'Auto_Service.backends.ClientAuthBackend',
+    'Auto_Service.backends.MasterAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MIDDLEWARE = [
