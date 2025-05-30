@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Все услуги{% endblock %}
+
+{% block content %}
+  <h2>Наши услуги</h2>
+
+  {% if services %}
+    <ul>
+      {% for service in services %}
+        <li>
+          <strong>{{ service.info }}</strong><br>
+          Цена: {{ service.price }} ₽<br>
+        </li>
+        <hr>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Пока нет доступных услуг.</p>
+  {% endif %}
+{% endblock %}

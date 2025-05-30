@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Date: Fri, 04 Apr 2025 13:18:35 GMT
+Server: WSGIServer/0.2 CPython/3.12.0
+Content-Type: application/json
+Vary: Accept
+Allow: GET, POST, HEAD, OPTIONS
+X-Frame-Options: DENY
+Content-Length: 98
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+
+[{"id":1,"date":"2024-06-10","time":"10:00","status":"Planned","client":2,"service":1,"master":1}]

@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Автосервис{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+<header>
+  <div class="navbar">
+    <div class="logo">Автосервис</div>
+    <nav>
+      <ul>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'appointments' %}">Мои записи</a></li>
+          <li><a href="{% url 'services' %}">Услуги</a></li>
+          {% if user.client %}
+            <li><a href="{% url 'create_appointment' %}">Создать запись</a></li>
+            <li><a href="{% url 'change_password' %}">Сменить пароль</a></li>
+        {% endif %}
+          <li><a href="{% url 'logout' %}">Выход</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">Вход</a></li>
+          <li><a href="{% url 'register' %}">Регистрация</a></li>
+          <li><a href="{% url 'services' %}">Услуги</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

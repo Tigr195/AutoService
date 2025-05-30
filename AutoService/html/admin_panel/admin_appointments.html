@@ -1,0 +1,39 @@
+{% extends 'admin_panel/admin_base.html' %}
+{% block title %}Записи{% endblock %}
+{% block content %}
+  <h2>Список записей</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Клиент</th>
+      <th>Мастер</th>
+      <th>Услуга</th>
+      <th>Дата</th>
+      <th>Время</th>
+      <th>Статус</th>
+      <th>Действия</th>
+    </tr>
+    {% for appointment in appointments %}
+      <tr>
+        <td>{{ appointment.id }}</td>
+        <td>{{ appointment.client.name }}</td>
+        <td>{{ appointment.master.full_name }}</td>
+        <td>{{ appointment.service.info }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time }}</td>
+        <td>{{ appointment.status }}</td>
+        <td>
+          <form method="post" action="{% url 'edit_appointment' appointment.id %}">
+            {% csrf_token %}
+            <select name="status">
+              <option value="Запланирована" {% if appointment.status == "Запланирована" %}selected{% endif %}>Запланирована</option>
+              <option value="Выполнена" {% if appointment.status == "Выполнена" %}selected{% endif %}>Выполнена</option>
+              <option value="Отменена" {% if appointment.status == "Отменена" %}selected{% endif %}>Отменена</option>
+            </select>
+            <button type="submit">Обновить</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

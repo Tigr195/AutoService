@@ -1,5 +1,14 @@
-FROM postgres:latest
-ENV POSTGRES_DB=autoservice
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=asdf4321
-EXPOSE 5432
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+CMD ["gunicorn", "AutoService.wsgi:application", "--bind", "0.0.0.0:8000"]

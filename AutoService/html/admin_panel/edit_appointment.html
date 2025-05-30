@@ -1,0 +1,10 @@
+{% extends 'admin_panel/admin_base.html' %}
+
+{% block content %}
+<h2>Изменить статус записи</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}

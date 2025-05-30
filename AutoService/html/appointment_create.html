@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="get">
+    <label for="date">Дата:</label><br>
+    <input type="date" name="date" value="{{ selected_date|default:'' }}"><br><br>
+
+    <label for="master">Мастер:</label><br>
+    <select name="master">
+    <option value="">Выберите мастера</option>
+    {% for master in masters %}
+        <option value="{{ master.id }}" {% if master.id|stringformat:"s" == selected_master %}selected{% endif %}>{{ master.full_name }}</option>
+    {% endfor %}
+</select><br><br>
+
+    <button type="submit">Показать доступное время</button>
+</form>
+
+{% if time_slots %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ request.GET.date }}">
+        <input type="hidden" name="master" value="{{ request.GET.master }}">
+
+        <label for="time">Время:</label><br>
+        <select name="time" required>
+            {% for time in time_slots %}
+                <option value="{{ time|time:"H:i:s" }}">{{ time|time:"H:i" }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="service">Услуга:</label><br>
+        <select name="service" required>
+            {% for service in services %}
+                <option value="{{ service.id }}">{{ service.info }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Записаться</button>
+    </form>
+{% endif %}
+
+{% if errors %}
+    <ul>
+        {% for field, error_list in errors.items %}
+            <li>{{ field }}: {{ error_list|join:", " }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

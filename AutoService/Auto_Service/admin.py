@@ -1,34 +1,40 @@
 from django.contrib import admin
 from .models import Client, Master, Service, Appointment
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+
+
+class MasterInline(admin.StackedInline):
+    model = Master
+    can_delete = False
+    verbose_name_plural = 'Master'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = [MasterInline]
+
+    list_display = ('username', 'email', 'is_staff', 'is_superuser')
+    search_fields = ('username', 'email')
+    ordering = ('username',)
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'login', 'password')  # Поля, отображаемые в списке
-    search_fields = ('name', 'phone', 'login')  # Поля, по которым можно искать
-    list_filter = ('name',)  # Фильтры справа
-    fieldsets = (
-        ('Основная информация', {'fields': ['name', 'phone', 'login', 'password']}),
-    )
+    list_display = ('id', 'name', 'phone', 'get_username')
+    search_fields = ('name', 'phone', 'user__username')
+    list_filter = ('name',)
 
-    def save_model(self, request, obj, form, change):
-        if 'password' in form.changed_data:  # Если пароль был изменён
-            obj.set_password(form.cleaned_data['password'])  # Хэшируем пароль
-        super().save_model(request, obj, form, change)
+    def get_username(self, obj):
+        return obj.user.username
+    get_username.short_description = 'Login'
 
 class MasterAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'phone', 'experience', 'login', 'password')
-    search_fields = ('full_name', 'phone', 'experience')
-    list_filter = ('experience',)
-    fieldsets = (
-        ('Основная информация', {'fields': ['full_name', 'phone', 'experience', 'login', 'password']}),
-    )
+    list_display = ('full_name', 'phone', 'experience', 'get_username')
+    search_fields = ('full_name', 'phone', 'experience', 'user__username')
 
-    def save_model(self, request, obj, form, change):
-        if 'password' in form.changed_data:  # Если пароль был изменён
-            obj.set_password(form.cleaned_data['password'])  # Хэшируем пароль
-        super().save_model(request, obj, form, change)
+    def get_username(self, obj):
+        return obj.user.username
+    get_username.short_description = 'Login'
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('info', 'price')
+    list_display = ('id', 'info', 'price')
     search_fields = ('info',)
     list_filter = ('price',)
     fieldsets = (
@@ -36,14 +42,16 @@ class ServiceAdmin(admin.ModelAdmin):
     )
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('client', 'date', 'time', 'service', 'master', 'status')
+    list_display = ('id', 'client', 'date', 'time', 'service', 'master', 'status')
     search_fields = ('client__name', 'master__full_name', 'service__info')
     list_filter = ('status', 'date')
     fieldsets = (
         ('Основная информация', {'fields': ['client', 'date', 'time', 'service', 'master', 'status']}),
     )
 
-# Регистрация моделей в админке
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Master, MasterAdmin)
 admin.site.register(Service, ServiceAdmin)

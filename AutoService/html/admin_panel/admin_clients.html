@@ -1,0 +1,12 @@
+{% extends 'admin_panel/admin_base.html' %}
+{% block title %}Клиенты{% endblock %}
+{% block content %}
+  <h2>Список клиентов</h2>
+  <ul>
+    {% for client in clients %}
+      <li>{{ client.name }} ({{ client.phone }}) — {{ client.user.username }}</li>
+    {% empty %}
+      <li>Нет клиентов</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

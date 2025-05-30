@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: autoservice-db
+    env_file:
+      - ./.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5500:5432"
+
+  backend:
+    build: AutoService/
+    env_file:
+      - ./.env
+    container_name: autoservice-backend
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
