@@ -103,8 +103,8 @@ DATABASES = {
         'NAME': 'autoservice',
         'USER': 'postgres',
         'PASSWORD': 'asdf4321',
-        'HOST': '127.0.0.1',
-        'PORT': '5500',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
